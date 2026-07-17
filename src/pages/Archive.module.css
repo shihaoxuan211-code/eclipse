@@ -1,0 +1,449 @@
+/* ── Opening overlay ──────────────── */
+.overlay {
+  position: fixed; inset: 0; z-index: 500; background: #F2EFE8;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem;
+  animation: fadeOut 0.55s ease 0.75s forwards;
+}
+.overlayLabel { font-size: 0.8rem; letter-spacing: 0.28em; text-transform: uppercase; color: rgba(25,25,25,0.4); }
+.overlayTitle { font-size: 1.5rem; font-weight: 400; letter-spacing: 0.22em; text-transform: uppercase; color: #191919; }
+.overlaySub { font-size: 0.7rem; letter-spacing: 0.2em; color: rgba(25,25,25,0.35); margin-top: 0.5rem; opacity: 0; animation: fadeIn 0.35s ease 0.25s forwards; }
+@keyframes fadeIn { to { opacity: 1; } }
+@keyframes fadeOut { 0% { opacity: 1; visibility: visible; } 99% { opacity: 0; visibility: visible; } 100% { opacity: 0; visibility: hidden; } }
+
+/* ── Page ──────────────────────────── */
+.page {
+  background: #F2EFE8;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 72px;
+  position: relative;
+}
+
+/* ── Header ────────────────────────── */
+.header {
+  padding-top: 140px;
+  padding-bottom: 80px;
+}
+
+.headerTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 36px;
+}
+
+.headerTitle {
+  font-size: clamp(72px, 10vw, 150px);
+  font-weight: 400;
+  line-height: 0.88;
+  letter-spacing: -0.03em;
+  color: #191919;
+  margin: 0;
+  font-family: inherit;
+}
+
+.headerMeta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  padding-bottom: 8px;
+}
+
+.headerMetaLabel {
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(25, 25, 25, 0.58);
+}
+
+.headerMetaYears {
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: rgba(25, 25, 25, 0.45);
+}
+
+.headerIntro {
+  font-size: 16px;
+  line-height: 1.55;
+  color: rgba(25, 25, 25, 0.58);
+  margin: 0;
+  max-width: 520px;
+  font-weight: 300;
+}
+
+/* ── Filters ───────────────────────── */
+.filters {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 28px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid rgba(25, 25, 25, 0.20);
+  margin-bottom: 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.filterBtn {
+  background: none;
+  border: none;
+  border-bottom: 1px solid transparent;
+  padding: 0 0 6px;
+  font-family: inherit;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(25, 25, 25, 0.45);
+  cursor: pointer;
+  transition: color 0.22s ease, border-color 0.22s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.filterBtn:hover {
+  color: rgba(25, 25, 25, 0.7);
+}
+
+.filterBtnActive {
+  color: #191919;
+  border-bottom-color: #191919;
+}
+
+/* ── Project List ──────────────────── */
+.projectList {
+  /* container for the rows */
+}
+
+.projectRow {
+  border-bottom: 1px solid rgba(25, 25, 25, 0.20);
+  cursor: pointer;
+  transition: background-color 0.28s ease, opacity 0.5s ease;
+  outline: none;
+  position: relative;
+}
+
+.projectRow:first-child {
+  border-top: 1px solid rgba(25, 25, 25, 0.20);
+}
+
+/* Keyboard focus ring */
+.projectRow:focus-visible {
+  outline: 2px solid #191919;
+  outline-offset: -2px;
+}
+
+/* ── Row states ────────────────────── */
+.projectRowHovered {
+  background-color: #E7E1D7;
+}
+
+.projectRowSelected {
+  background-color: #E7E1D7;
+}
+
+.projectRowFiltered {
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+/* ── Row inner grid ────────────────── */
+.projectRowInner {
+  display: grid;
+  grid-template-columns: 120px 1fr 180px 100px;
+  align-items: center;
+  min-height: 150px;
+  padding: 38px 0;
+  gap: 0;
+}
+
+/* ── Number ────────────────────────── */
+.projectNumber {
+  font-size: 68px;
+  font-weight: 300;
+  line-height: 1;
+  color: rgba(25, 25, 25, 0.25);
+  letter-spacing: -0.02em;
+  transition: color 0.28s ease;
+}
+
+/* Hover/selected darkens the number */
+.projectRowHovered .projectNumber,
+.projectRowSelected .projectNumber {
+  color: rgba(25, 25, 25, 0.55);
+}
+
+/* ── Title ─────────────────────────── */
+.projectTitle {
+  font-size: clamp(38px, 5vw, 74px);
+  font-weight: 400;
+  line-height: 1.05;
+  color: #191919;
+  letter-spacing: -0.025em;
+  transition: transform 0.34s ease;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.projectRowHovered .projectTitle,
+.projectRowSelected .projectTitle {
+  transform: translateX(12px);
+}
+
+/* ── Category ──────────────────────── */
+.projectCategory {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(25, 25, 25, 0.58);
+  text-align: right;
+  padding-right: 8px;
+}
+
+/* ── Year ──────────────────────────── */
+.projectYear {
+  font-size: 14px;
+  color: rgba(25, 25, 25, 0.45);
+  text-align: right;
+  letter-spacing: 0.04em;
+}
+
+/* ── View Project button ───────────── */
+.viewProject {
+  background: none;
+  border: none;
+  border-bottom: 1px solid #191919;
+  padding: 0 0 3px;
+  font-family: inherit;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #191919;
+  cursor: pointer;
+  transition: opacity 0.25s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+  align-self: center;
+  line-height: 1;
+  margin-top: 4px;
+}
+
+.viewProject:hover {
+  opacity: 0.5;
+}
+
+/* ── Empty state ───────────────────── */
+.emptyState {
+  font-size: 15px;
+  color: rgba(25, 25, 25, 0.4);
+  padding: 60px 0;
+  text-align: center;
+  margin: 0;
+  font-weight: 300;
+  font-style: italic;
+}
+
+/* ── Floating Image Preview ────────── */
+.imagePreview {
+  position: fixed;
+  right: 80px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 360px;
+  pointer-events: none;
+  z-index: 90;
+  opacity: 0;
+  transition: opacity 0.36s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.imagePreviewVisible {
+  opacity: 1;
+}
+
+.imagePreviewInner {
+  animation: imagePreviewEnter 0.36s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  transform-origin: center center;
+}
+
+@keyframes imagePreviewEnter {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.96) rotate(var(--preview-rotation));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(var(--preview-rotation));
+  }
+}
+
+.imagePreviewFrame {
+  background: #f9f6f0;
+  padding: 8px;
+  border: 1px solid rgba(25, 25, 25, 0.12);
+  border-radius: 2px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.07), 0 8px 32px rgba(0,0,0,0.05);
+  overflow: hidden;
+}
+
+.imagePreviewFrame img {
+  width: 100%;
+  display: block;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 1px;
+}
+
+/* ── Reduced motion ────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .overlay { animation: none; opacity: 0; visibility: hidden; }
+  .overlaySub { animation: none; opacity: 0; }
+  .imagePreview { transition: none; }
+  .imagePreviewInner { animation: none; transform: none; }
+  .imagePreviewVisible { opacity: 1; }
+  .imagePreviewFrame img { transform: none; }
+  .projectRow { transition: none; }
+  .projectTitle { transition: none; }
+  .projectRowHovered .projectTitle,
+  .projectRowSelected .projectTitle { transform: none; }
+  .projectNumber { transition: none; }
+  .filterBtn { transition: none; }
+  .viewProject { transition: none; }
+}
+
+/* ── Responsive: Tablet (<1024px) ──── */
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 32px;
+  }
+
+  .header {
+    padding-top: 100px;
+    padding-bottom: 60px;
+  }
+
+  .headerTitle {
+    font-size: clamp(48px, 8vw, 96px);
+  }
+
+  .projectRowInner {
+    grid-template-columns: 90px 1fr 140px 80px;
+    min-height: 120px;
+    padding: 30px 0;
+  }
+
+  .projectNumber {
+    font-size: 48px;
+  }
+
+  .projectTitle {
+    font-size: clamp(28px, 4vw, 52px);
+  }
+
+  /* Hide floating image on tablets */
+  .imagePreview {
+    display: none;
+  }
+}
+
+/* ── Responsive: Mobile (<768px) ───── */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 20px;
+  }
+
+  .header {
+    padding-top: 80px;
+    padding-bottom: 48px;
+  }
+
+  .headerTop {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .headerMeta {
+    align-items: flex-start;
+  }
+
+  .headerIntro {
+    font-size: 15px;
+    max-width: 100%;
+  }
+
+  .filters {
+    gap: 20px;
+    padding-bottom: 28px;
+  }
+
+  .projectRowInner {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding: 28px 0;
+    gap: 6px;
+  }
+
+  .projectNumber {
+    font-size: 48px;
+    grid-row: 1;
+    grid-column: 1;
+  }
+
+  .projectTitle {
+    font-size: 38px;
+    grid-row: 2;
+    grid-column: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .projectCategory {
+    text-align: left;
+    padding-right: 0;
+    font-size: 11px;
+    grid-row: 3;
+    grid-column: 1;
+  }
+
+  .projectYear {
+    text-align: left;
+    font-size: 12px;
+    grid-row: 1;
+    grid-column: 1;
+    justify-self: end;
+    align-self: start;
+  }
+
+  .viewProject {
+    margin-top: 2px;
+    font-size: 13px;
+  }
+
+  /* Hide floating image on mobile */
+  .imagePreview {
+    display: none;
+  }
+}
+
+/* ── Very small screens ───────────── */
+@media (max-width: 480px) {
+  .headerTitle {
+    font-size: 42px;
+  }
+
+  .projectTitle {
+    font-size: 32px;
+  }
+
+  .projectNumber {
+    font-size: 40px;
+  }
+}

@@ -1,0 +1,434 @@
+/* ── Page wrapper ──────────────────── */
+.page {
+  background: #f7f3eb;
+}
+
+/* ── Top navigation ────────────────── */
+.topNav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 2.5rem;
+}
+
+.navLink {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.navLink:hover {
+  color: #fff;
+}
+
+.navDark {
+  color: #111;
+}
+
+.navDark:hover {
+  color: #000;
+}
+
+/* ── Cover section ────────────────── */
+.cover {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #0a0a0a;
+}
+
+.coverImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.coverOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.22);
+}
+
+.coverContent {
+  position: absolute;
+  bottom: 8rem;
+  left: 2.5rem;
+  right: 2.5rem;
+  color: #fff;
+}
+
+.coverLabel {
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.65);
+  margin-bottom: 1rem;
+}
+
+.coverTitle {
+  font-size: clamp(4rem, 8vw, 9rem);
+  font-weight: 400;
+  line-height: 0.9;
+  margin: 0 0 1.5rem;
+  letter-spacing: -0.01em;
+}
+
+.coverMeta {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  margin: 0;
+}
+
+.scrollCue {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* ── Introduction section ─────────── */
+.intro {
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  padding: 6rem 2.5rem;
+}
+
+.introGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  width: 100%;
+}
+
+.introLeft {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.introNumber {
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #b0a89a;
+  margin-bottom: 1rem;
+}
+
+.introTitle {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 400;
+  line-height: 1.08;
+  color: #1a1a1a;
+  margin: 0 0 2rem;
+}
+
+.introRight {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.introText {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: #666;
+  font-weight: 300;
+  margin: 0;
+  max-width: 520px;
+}
+
+.introMeta {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #aaa;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+/* ── Gallery section ──────────────── */
+.gallery {
+  padding: 4rem 2.5rem 8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.galleryImage {
+  display: block;
+  object-fit: cover;
+  background: #e8e3da;
+}
+
+.galleryImage.landscape {
+  width: 85%;
+  aspect-ratio: 16 / 9;
+  margin-bottom: 6rem;
+}
+
+.galleryImage.portrait {
+  width: 40%;
+  aspect-ratio: 3 / 4;
+  margin-bottom: 6rem;
+}
+
+.galleryImage.medium {
+  width: 60%;
+  aspect-ratio: 4 / 3;
+  margin-bottom: 6rem;
+}
+
+.galleryImage.full {
+  width: 96%;
+  aspect-ratio: 16 / 9;
+  margin-bottom: 6rem;
+}
+
+.galleryImage.small {
+  width: 46%;
+  aspect-ratio: 1 / 1;
+  margin-bottom: 0;
+  margin-top: 4rem;
+}
+
+.alignLeft {
+  align-self: flex-start;
+}
+
+.alignRight {
+  align-self: flex-end;
+}
+
+.alignCenter {
+  align-self: center;
+}
+
+/* ── Quote section ────────────────── */
+.quote {
+  min-height: 65vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2.5rem;
+}
+
+.quoteText {
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  font-weight: 400;
+  line-height: 1.3;
+  color: #1a1a1a;
+  max-width: 900px;
+  text-align: center;
+  margin: 0;
+}
+
+/* ── End section ──────────────────── */
+.end {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 6rem 2.5rem;
+  gap: 4rem;
+}
+
+.endLabel {
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #b0a89a;
+  margin-bottom: 1rem;
+}
+
+.endChapter {
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 400;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.nextChapter {
+  border-top: 1px solid #e8e3da;
+  padding-top: 3rem;
+}
+
+.nextLabel {
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #999;
+  margin-bottom: 0.75rem;
+}
+
+.nextTitle {
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-weight: 400;
+  color: #1a1a1a;
+  margin: 0 0 0.25rem;
+  line-height: 1.1;
+}
+
+.nextArrow {
+  font-size: 1rem;
+  color: #aaa;
+  margin-left: 0.3rem;
+}
+
+.nextButton {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+}
+
+.nextNumber {
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #b0a89a;
+  margin-bottom: 0.4rem;
+}
+
+.backLink {
+  display: inline-block;
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #aaa;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  transition: color 0.3s ease;
+}
+
+.backLink:hover {
+  color: #1a1a1a;
+}
+
+/* ── Not found ────────────────────── */
+.notFound {
+  min-height: 100vh;
+  background: #f7f3eb;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+.notFoundLabel {
+  font-size: 0.7rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #999;
+}
+
+.notFoundTitle {
+  font-size: 1.5rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  color: #1a1a1a;
+}
+
+/* ── Responsive ──────────────────── */
+@media (max-width: 768px) {
+  .topNav {
+    padding: 1.5rem;
+  }
+
+  .coverContent {
+    bottom: 6rem;
+    left: 1.5rem;
+    right: 1.5rem;
+  }
+
+  .intro {
+    min-height: 0;
+    padding: 5rem 1.5rem 4rem;
+  }
+
+  .introGrid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .gallery {
+    padding: 2rem 1rem 5rem;
+  }
+
+  .galleryImage.landscape {
+    width: 100%;
+    margin-bottom: 3rem;
+  }
+
+  .galleryImage.portrait {
+    width: 80%;
+    margin-bottom: 3rem;
+  }
+
+  .galleryImage.medium {
+    width: 90%;
+    margin-bottom: 3rem;
+  }
+
+  .galleryImage.full {
+    width: 100%;
+    margin-bottom: 3rem;
+  }
+
+  .galleryImage.small {
+    width: 75%;
+    margin-top: 1rem;
+  }
+
+  .quote {
+    min-height: 45vh;
+    padding: 3rem 1.5rem;
+  }
+
+  .end {
+    min-height: 0;
+    padding: 4rem 1.5rem;
+    gap: 3rem;
+  }
+}
+
+/* ── Reduced motion ──────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .navLink {
+    transition: none;
+  }
+
+  .backLink {
+    transition: none;
+  }
+}
