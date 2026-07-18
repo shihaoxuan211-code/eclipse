@@ -1,3 +1,4 @@
+/* ── Overlay ───────────────────────── */
 .overlay {
   position: fixed;
   inset: 0;
@@ -9,7 +10,12 @@
   background: #000;
   opacity: 1;
   visibility: visible;
-  transition: opacity 0.6s ease-out, visibility 0.6s ease-out;
+  transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+}
+
+.entering {
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
 }
 
 .overlayHidden {
@@ -18,24 +24,22 @@
   pointer-events: none;
 }
 
-.logoPlaceholder {
-  width: 120px;
-  height: 120px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 0.75rem;
-  letter-spacing: 0.15em;
+/* ── Brand wordmark ────────────────── */
+.brand {
+  font-family: Arial, 'Helvetica Neue', 'Arial Black', sans-serif;
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
+  font-weight: 700;
+  letter-spacing: 0.10em;
   text-transform: uppercase;
-  margin-bottom: 2rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 1.5rem;
 }
 
+/* ── Subtitle ──────────────────────── */
 .subtitle {
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 0.85rem;
-  letter-spacing: 0.25em;
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
+  margin: 0;
 }

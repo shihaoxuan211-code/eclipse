@@ -12,7 +12,23 @@ body,
 }
 
 body {
-  background: #f7f3eb;
-  color: #111;
+  background: #FFFFFF;
+  color: #161616;
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Hide native cursor on desktop (custom cursor handles visual) */
+@media (pointer: fine) {
+  html {
+    cursor: none;
+  }
+
+  a,
+  button,
+  [role="button"],
+  input,
+  textarea,
+  select {
+    cursor: none;
+  }
 }

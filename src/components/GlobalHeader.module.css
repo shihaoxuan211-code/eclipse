@@ -1,0 +1,196 @@
+/* ── Fixed header ──────────────────── */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28px 36px;
+  background: transparent;
+  pointer-events: none;
+  overflow: visible;
+  contain: none;
+}
+
+.header > * {
+  pointer-events: auto;
+}
+
+/* ── Left / Right labels ──────────── */
+.side {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(22, 22, 22, 0.65);
+  user-select: none;
+}
+.side:empty { visibility: hidden; }
+.light { color: rgba(255, 255, 255, 0.75); }
+
+/* ── Brand wrapper ────────────────── */
+.brandWrapper {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  background: none;
+  border: none;
+  padding: 0;
+  line-height: 1;
+  cursor: pointer;
+  white-space: nowrap;
+  display: grid;
+  place-items: center;
+  width: max-content;
+  overflow: visible;
+}
+
+/* ── Red layer (beneath, entrance only) ── */
+.redLayer {
+  grid-area: 1 / 1;
+  display: flex;
+  color: #B51F1F;
+  opacity: 1;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+}
+.eclipseDone .redLayer { opacity: 0; }
+
+/* ── Gradient layer ───────────────── */
+.gradientLayer {
+  grid-area: 1 / 1;
+  display: flex;
+  pointer-events: none;
+  /* One continuous horizontal gradient */
+  background-image: linear-gradient(
+    90deg,
+    #9b2020 0%,
+    #671717 25%,
+    #090909 50%,
+    #671717 75%,
+    #9b2020 100%
+  );
+  background-size: 220% 100%;
+  background-repeat: no-repeat;
+  background-position-x: var(--gradient-position, 0%);
+  /* Clip to text so gradient only visible inside letters */
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Eclipse entrance mask on gradient layer */
+.brandWrapper:not(.eclipseDone) .gradientLayer .letter {
+  mask-image: radial-gradient(circle at left, #000 100%, transparent 100%);
+  -webkit-mask-image: radial-gradient(circle at left, #000 100%, transparent 100%);
+  animation: eclipseReveal 2s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+.eclipseDone .gradientLayer .letter {
+  mask-image: none;
+  -webkit-mask-image: none;
+}
+
+/* ── Fallback if background-clip unsupported ── */
+@supports not (background-clip: text) {
+  .gradientLayer {
+    background-image: none;
+    color: #111111;
+    -webkit-text-fill-color: #111111;
+  }
+}
+
+/* ── Static gradient for reduced motion ── */
+.gradientStatic {
+  background-position-x: 0% !important;
+  transition: none !important;
+}
+
+/* ── Individual letters ───────────── */
+.letter {
+  display: inline-block;
+  font-family: Arial, 'Helvetica Neue', 'Arial Black', sans-serif;
+  font-size: clamp(2.5rem, 4vw, 3.7rem);
+  font-weight: 800;
+  line-height: 0.95;
+  text-transform: uppercase;
+  /* No breathing — letters are static now */
+}
+
+/* ── Letter C — normal letter ─────── */
+.letterEclipse {
+  /* C now renders as a normal capital letter using the shared gradient */
+}
+
+/* ── Reduced motion ───────────────── */
+.reducedMotion .letter {
+  mask-image: none;
+  -webkit-mask-image: none;
+}
+.reducedMotion .redLayer { opacity: 0; }
+
+/* ── Screen reader only ──────────── */
+.srOnly {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── Menu button ──────────────────── */
+.menuBtn {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #000000;
+  cursor: pointer;
+  transition: color 0.28s ease;
+}
+.menuBtn:hover { color: #333333; }
+.light.menuBtn { color: rgba(255, 255, 255, 0.9); }
+.light.menuBtn:hover { color: #ffffff; }
+
+/* ── Keyframes ────────────────────── */
+@keyframes eclipseReveal {
+  0% {
+    mask-image: radial-gradient(circle at left, #000 100%, transparent 100%);
+    -webkit-mask-image: radial-gradient(circle at left, #000 100%, transparent 100%);
+  }
+  100% {
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+}
+
+/* ── Responsive ───────────────────── */
+@media (max-width: 1024px) {
+  .header { padding: 24px 28px; }
+}
+
+@media (max-width: 768px) {
+  .header { padding: 20px 20px; }
+
+  .letter {
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  }
+
+  .side { font-size: 10px; }
+  .menuBtn { font-size: 14px; }
+}
+
+@media (max-width: 480px) {
+  .side { display: none; }
+  .letter {
+    font-size: clamp(1.5rem, 5vw, 2rem);
+  }
+}

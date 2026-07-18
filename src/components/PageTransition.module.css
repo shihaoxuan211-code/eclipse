@@ -1,0 +1,68 @@
+/* ── Overlay ──────────────────────── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  /* Hidden below viewport by default */
+  transform: translateY(100%);
+  transition: transform 0.55s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+/* ── Phase: entering (slide up) ──── */
+.entering {
+  transform: translateY(0);
+}
+
+/* ── Phase: visible (fully covered) ─ */
+.visible {
+  transform: translateY(0);
+}
+
+/* ── Phase: exiting (slide up & away) ─ */
+.exiting {
+  transform: translateY(-100%);
+  transition: transform 0.55s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+/* ── Brand ────────────────────────── */
+.brand {
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #111111;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.brandVisible {
+  opacity: 1;
+}
+
+/* ── Reduced motion ───────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .overlay {
+    transform: translateY(0);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .entering,
+  .visible {
+    opacity: 1;
+  }
+
+  .exiting {
+    opacity: 0;
+  }
+
+  .brand {
+    opacity: 1;
+    transition: none;
+  }
+}

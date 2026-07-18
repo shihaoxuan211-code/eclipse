@@ -1,42 +1,12 @@
-import { forwardRef } from 'react'
+import { useState, forwardRef } from 'react'
 import styles from './SelectedProjects.module.css'
+import { ARCHIVE_CHAPTERS } from '../data/archive'
+import ProjectQuickPreview from './ProjectQuickPreview'
+import LocalImage from './LocalImage'
 
-const CHAPTERS = [
-  {
-    number: '01',
-    title: 'Imagined Worlds',
-    description:
-      'Stories shaped by fantasy, costumes and imagined identities, where reality quietly gives way to another world.',
-    image: 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=800&h=600&fit=crop',
-    imageRight: false,
-  },
-  {
-    number: '02',
-    title: 'Quiet Encounters',
-    description:
-      'Small moments between people, cities and light, collected before they disappear.',
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop',
-    imageRight: true,
-  },
-  {
-    number: '03',
-    title: 'Beyond the Horizon',
-    description:
-      'Journeys, landscapes and distant places that continue to exist long after the road ends.',
-    image: 'https://images.unsplash.com/photo-1494500764479-0c8f2919a3d8?w=800&h=600&fit=crop',
-    imageRight: false,
-  },
-  {
-    number: '04',
-    title: 'Fragments of Time',
-    description:
-      'Personal experiments, unfinished thoughts and photographs that simply preserve a passing feeling.',
-    image: 'https://images.unsplash.com/photo-1518644730709-0835105d9da3?w=800&h=600&fit=crop',
-    imageRight: true,
-  },
-]
+const SelectedProjects = forwardRef(function SelectedProjects({ onNavigate }, ref) {
+  const [previewChapter, setPreviewChapter] = useState(null)
 
-const SelectedProjects = forwardRef(function SelectedProjects(_props, ref) {
   return (
     <section ref={ref} className={styles.section}>
       <div className={styles.intro}>
@@ -47,29 +17,65 @@ const SelectedProjects = forwardRef(function SelectedProjects(_props, ref) {
           unfolding one frame at a time.
         </h2>
       </div>
-      {CHAPTERS.map((chapter) => {
-        const imageColClass = chapter.imageRight ? styles.imageRight : styles.imageLeft
+
+      {ARCHIVE_CHAPTERS.map((chapter) => {
+        const isImageRight = chapter.imageRight
         return (
-          <div key={chapter.number} className={styles.chapterRow}>
-            <div className={imageColClass}>
+          <article
+            key={chapter.slug}
+            className={`${styles.chapterRow} ${isImageRight ? styles.imageRight : ''}`}
+          >
+            {/* Image */}
+            <div
+              className={styles.imageCol}
+              onClick={() => setPreviewChapter(chapter)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                  setPreviewChapter(chapter)
+                }
+              }}
+            >
               <div className={styles.imageWrapper}>
-                <img
-                  className={styles.image}
-                  src={chapter.image}
+                <LocalImage
+                  src={chapter.cover}
+                  fallbackSrc={chapter.fallbackCover}
                   alt={chapter.title}
                 />
               </div>
             </div>
+
+            {/* Text */}
             <div className={styles.textCol}>
-              <div className={styles.chapterText}>
-                <p className={styles.chapterNumber}>{chapter.number}</p>
-                <h3 className={styles.chapterTitle}>{chapter.title}</h3>
-                <p className={styles.chapterDescription}>{chapter.description}</p>
-              </div>
+              <span className={styles.number}>{chapter.number}</span>
+              <h3 className={styles.title}>{chapter.title}</h3>
+              <p className={styles.year}>{chapter.year}</p>
+              <p className={styles.description}>{chapter.description}</p>
+              <button
+                className={styles.previewLink}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setPreviewChapter(chapter)
+                }}
+                type="button"
+              >
+                Preview →
+              </button>
             </div>
-          </div>
+          </article>
         )
       })}
+
+      <ProjectQuickPreview
+        chapter={previewChapter}
+        onClose={() => setPreviewChapter(null)}
+        onViewFull={(slug) => {
+          setPreviewChapter(null)
+          onNavigate?.(`/archive/${slug}`)
+        }}
+      />
     </section>
   )
 })

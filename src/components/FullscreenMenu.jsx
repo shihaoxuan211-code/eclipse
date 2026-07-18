@@ -28,13 +28,10 @@ export default function FullscreenMenu({ isOpen, onClose, onNavigate }) {
   return (
     <div
       className={`${styles.backdrop} ${isOpen ? styles.backdropOpen : ''}`}
+      onClick={onClose}
       aria-hidden={!isOpen}
     >
-      <button className={styles.closeLabel} onClick={onClose} type="button">
-        Close
-      </button>
-
-      <nav className={styles.nav}>
+      <nav className={styles.nav} onClick={(e) => e.stopPropagation()}>
         {MENU_ITEMS.map((item) => (
           <button
             key={item}

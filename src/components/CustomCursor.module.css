@@ -1,0 +1,39 @@
+.cursor {
+  position: fixed;
+  top: 0; left: 0;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(22, 22, 22, 0.45);
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  transform: translate3d(-14px, -14px, 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease;
+  will-change: transform;
+}
+
+.visible {
+  opacity: 1;
+}
+
+.hover {
+  width: 48px; height: 48px;
+  border-color: rgba(22, 22, 22, 0.18);
+}
+
+.label {
+  font-size: 7px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(22, 22, 22, 0.55);
+  user-select: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.hover .label {
+  opacity: 1;
+}

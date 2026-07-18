@@ -1,17 +1,16 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
 import Hero from '../components/Hero'
 import FullscreenMenu from '../components/FullscreenMenu'
+import GlobalHeader from '../components/GlobalHeader'
 import SelectedProjects from '../components/SelectedProjects'
 import AboutSection from '../components/AboutSection'
 import ContactSection from '../components/ContactSection'
 import Footer from '../components/Footer'
-import menuStyles from '../components/PersistentMenuButton.module.css'
 
 const WHEEL_THRESHOLD = 40
 
 function Home({ onNavigate }) {
   const [menuOpen, setMenuOpen] = useState(false)
-  const [menuDark, setMenuDark] = useState(false)
   const heroRef = useRef(null)
   const projectsRef = useRef(null)
   const aboutRef = useRef(null)
@@ -22,12 +21,12 @@ function Home({ onNavigate }) {
   const openMenu = useCallback(() => setMenuOpen(true), [])
   const closeMenu = useCallback(() => setMenuOpen(false), [])
 
-  // ── Helpers ──────────────────────────────────────────────
-
   function snapTo(ref) {
     if (!ref.current) return
     scrollingLocked.current = true
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const prefersReduced = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    )
     ref.current.scrollIntoView({
       behavior: prefersReduced.matches ? 'instant' : 'smooth',
       block: 'start',
@@ -38,7 +37,6 @@ function Home({ onNavigate }) {
     }, delay)
   }
 
-  /** Section whose visible area inside the viewport is largest. */
   function getVisibleSection() {
     const sections = [
       { name: 'hero', ref: heroRef },
@@ -81,23 +79,25 @@ function Home({ onNavigate }) {
     return rect.bottom <= window.innerHeight + tolerance
   }
 
-  // IntersectionObserver to track whether Hero is in view for menu color
+  // Track whether hero is in view for header light mode
+  const [headerLight, setHeaderLight] = useState(true)
+
   useEffect(() => {
     const heroEl = heroRef.current
     if (!heroEl) return
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setMenuDark(entry.intersectionRatio < 0.9)
+        setHeaderLight(entry.intersectionRatio < 0.9)
       },
-      { threshold: [0, 0.9] }
+      { threshold: [0, 0.9] },
     )
 
     observer.observe(heroEl)
     return () => observer.disconnect()
   }, [])
 
-  // ── Snap-scroll wheel handler (single listener) ──────────
+  // Snap-scroll wheel handler
   useEffect(() => {
     function handleWheel(event) {
       if (scrollingLocked.current) return
@@ -108,64 +108,50 @@ function Home({ onNavigate }) {
       const section = getVisibleSection()
       if (!section) return
 
-      // ── Downward ──────────────────────────────────────────
       if (delta > 0) {
         switch (section.name) {
           case 'hero':
             event.preventDefault()
             snapTo(projectsRef)
             break
-
           case 'chapters':
             if (isNearBottomOfSection(projectsRef)) {
               event.preventDefault()
               snapTo(aboutRef)
             }
-            // else: normal scroll inside chapters
             break
-
           case 'about':
             event.preventDefault()
             snapTo(contactRef)
             break
-
           case 'contact':
             event.preventDefault()
             snapTo(footerRef)
             break
-
           case 'footer':
-            // normal scroll (no preventDefault)
             break
         }
         return
       }
 
-      // ── Upward ────────────────────────────────────────────
       if (delta < 0) {
         switch (section.name) {
           case 'hero':
-            // do nothing — already at top
             break
-
           case 'chapters':
             if (isNearTopOfSection(projectsRef)) {
               event.preventDefault()
               snapTo(heroRef)
             }
-            // else: normal scroll inside chapters
             break
-
           case 'about':
             event.preventDefault()
             snapTo(projectsRef)
             break
-
           case 'contact':
             event.preventDefault()
             snapTo(aboutRef)
             break
-
           case 'footer':
             event.preventDefault()
             snapTo(contactRef)
@@ -181,19 +167,23 @@ function Home({ onNavigate }) {
 
   return (
     <main>
-      <button
-        className={`${menuStyles.button} ${menuDark ? menuStyles.dark : ''}`}
-        onClick={openMenu}
-        type="button"
-      >
-        Menu
-      </button>
+      <GlobalHeader
+        pageLabel=""
+        onMenuOpen={openMenu}
+        onNavigate={onNavigate}
+        light={headerLight}
+      />
+
       <Hero ref={heroRef} />
-      <SelectedProjects ref={projectsRef} />
+      <SelectedProjects ref={projectsRef} onNavigate={onNavigate} />
       <AboutSection ref={aboutRef} />
       <ContactSection ref={contactRef} />
       <Footer ref={footerRef} />
-      <FullscreenMenu isOpen={menuOpen} onClose={closeMenu} onNavigate={onNavigate} />
+      <FullscreenMenu
+        isOpen={menuOpen}
+        onClose={closeMenu}
+        onNavigate={onNavigate}
+      />
     </main>
   )
 }

@@ -1,5 +1,6 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef } from 'react'
 import './App.css'
+import styles from './App.module.css'
 import Home from './pages/Home'
 import Archive from './pages/Archive'
 import ChapterDetail from './pages/ChapterDetail'
@@ -7,83 +8,138 @@ import About from './pages/About'
 import Contact from './pages/Contact'
 import LoadingScreen from './components/LoadingScreen'
 import FullscreenMenu from './components/FullscreenMenu'
-import menuStyles from './components/PersistentMenuButton.module.css'
+import GlobalHeader from './components/GlobalHeader'
+import CustomCursor from './components/CustomCursor'
+import PageTransition from './components/PageTransition'
+
+const PHASE_ENTERING_MS = 550
+const PHASE_VISIBLE_MS = 1000
+const PHASE_EXITING_MS = 550
+const PREPARE_DELAY_MS = 0
 
 function App() {
   const [loading, setLoading] = useState(true)
   const [page, setPage] = useState('home')
   const [activeChapterSlug, setActiveChapterSlug] = useState(null)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [phase, setPhase] = useState('idle')
+  const [contentState, setContentState] = useState('visible')
+  const [transitionBrand, setTransitionBrand] = useState(true)
+  const pendingPageRef = useRef(null)
 
-  const navigate = useCallback((target) => {
-    if (typeof target !== 'string') return
-
-    // Archive chapter detail (e.g. "/archive/imagined-worlds")
+  const switchPage = useCallback((target) => {
     if (target.startsWith('/archive/')) {
       const slug = target.replace('/archive/', '')
       setActiveChapterSlug(slug)
       setPage('archive-detail')
       return
     }
-
-    // Menu items
     switch (target) {
-      case 'Home':
-        setPage('home')
-        break
-      case 'Archive':
-        setPage('archive')
-        break
-      case 'About':
-        setPage('about')
-        break
-      case 'Contact':
-        setPage('contact')
-        break
+      case 'Home': setPage('home'); break
+      case 'Archive': setPage('archive'); break
+      case 'About': setPage('about'); break
+      case 'Contact': setPage('contact'); break
     }
   }, [])
 
-  const openMenu = useCallback(() => setMenuOpen(true), [])
+  const navigate = useCallback((target) => {
+    if (typeof target !== 'string') return
+    if (phase !== 'idle') return
+
+    pendingPageRef.current = target
+
+    const isArchive = target === 'Archive' || target.startsWith('/archive/')
+    setTransitionBrand(!isArchive)
+
+    setPhase('preparing')
+    setContentState('fading')
+
+    setTimeout(() => { setPhase('entering') }, PREPARE_DELAY_MS)
+
+    setTimeout(() => {
+      window.scrollTo(0, 0)
+      setPhase('visible')
+    }, PREPARE_DELAY_MS + PHASE_ENTERING_MS)
+
+    setTimeout(() => {
+      const t = pendingPageRef.current
+      if (!t) return
+      switchPage(t)
+      setPhase('exiting')
+      setContentState('revealing')
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => { setContentState('visible') })
+      })
+    }, PREPARE_DELAY_MS + PHASE_ENTERING_MS + PHASE_VISIBLE_MS)
+
+    setTimeout(() => {
+      setPhase('idle')
+      setContentState('visible')
+    }, PREPARE_DELAY_MS + PHASE_ENTERING_MS + PHASE_VISIBLE_MS + PHASE_EXITING_MS)
+  }, [phase, switchPage])
+
+  const toggleMenu = useCallback(() => setMenuOpen((prev) => !prev), [])
   const closeMenu = useCallback(() => setMenuOpen(false), [])
 
+  const handleEclipseClick = useCallback(() => {
+    if (menuOpen) closeMenu()
+    navigate('Home')
+  }, [menuOpen, closeMenu, navigate])
+
+  // ── All hooks declared before any conditional returns ──
+
   if (loading) {
-    return <LoadingScreen onComplete={() => setLoading(false)} />
+    return (
+      <>
+        <LoadingScreen onComplete={() => setLoading(false)} />
+        <CustomCursor />
+      </>
+    )
   }
 
-  // Home has its own persistent MENU + FullscreenMenu — let it manage both.
+  const wrapperClass = [
+    styles.content,
+    contentState === 'fading' ? styles.fading : '',
+    contentState === 'revealing' ? styles.revealing : '',
+  ].filter(Boolean).join(' ')
+
   if (page === 'home') {
-    return <Home onNavigate={navigate} />
+    return (
+      <>
+        <GlobalHeader pageLabel="" onMenuOpen={toggleMenu} onNavigate={handleEclipseClick} />
+        <div className={wrapperClass}>
+          <Home onNavigate={navigate} />
+        </div>
+        <PageTransition phase={phase} showBrand={transitionBrand} />
+        <CustomCursor />
+      </>
+    )
   }
 
-  // All other pages share one persistent MENU button + one FullscreenMenu.
+  const pageLabel =
+    page === 'archive' ? 'Archive'
+    : page === 'archive-detail' ? 'Archive'
+    : page === 'about' ? 'About'
+    : page === 'contact' ? 'Contact'
+    : ''
+
   return (
     <>
-      <button
-        className={menuStyles.button}
-        onClick={openMenu}
-        type="button"
-      >
-        Menu
-      </button>
+      <GlobalHeader pageLabel={pageLabel} onMenuOpen={toggleMenu} onNavigate={handleEclipseClick} />
 
-      <FullscreenMenu
-        isOpen={menuOpen}
-        onClose={closeMenu}
-        onNavigate={(item) => {
-          navigate(item)
-          closeMenu()
-        }}
-      />
+      <FullscreenMenu isOpen={menuOpen} onClose={closeMenu} onNavigate={(item) => { navigate(item); closeMenu() }} />
 
-      {page === 'archive' && <Archive onNavigate={navigate} />}
-      {page === 'archive-detail' && (
-        <ChapterDetail
-          slug={activeChapterSlug}
-          onNavigate={navigate}
-        />
-      )}
-      {page === 'about' && <About onNavigate={navigate} />}
-      {page === 'contact' && <Contact onNavigate={navigate} />}
+      <div className={wrapperClass}>
+        {page === 'archive' && <Archive onNavigate={navigate} />}
+        {page === 'archive-detail' && (
+          <ChapterDetail slug={activeChapterSlug} onNavigate={navigate} />
+        )}
+        {page === 'about' && <About onNavigate={navigate} />}
+        {page === 'contact' && <Contact onNavigate={navigate} />}
+      </div>
+
+      <CustomCursor />
+      <PageTransition phase={phase} showBrand={transitionBrand} />
     </>
   )
 }

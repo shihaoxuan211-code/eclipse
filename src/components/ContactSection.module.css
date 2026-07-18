@@ -1,5 +1,5 @@
 .section {
-  background: #f7f3eb;
+  background: #FFFFFF;
   padding: 8rem 2.5rem 10rem;
   min-height: 100vh;
   display: flex;
@@ -11,7 +11,7 @@
   font-size: 0.7rem;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: #999;
+  color: rgba(22, 22, 22, 0.45);
   margin-bottom: 1.5rem;
 }
 
@@ -19,7 +19,7 @@
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 400;
   line-height: 1.25;
-  color: #1a1a1a;
+  color: #161616;
   max-width: 600px;
   margin: 0 0 1.5rem;
 }
@@ -27,7 +27,7 @@
 .supportingText {
   font-size: 0.95rem;
   line-height: 1.7;
-  color: #777;
+  color: rgba(22, 22, 22, 0.52);
   font-weight: 300;
   margin: 0 0 5rem;
   max-width: 400px;
@@ -50,12 +50,12 @@
   font-size: 0.7rem;
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: #b0a89a;
+  color: rgba(22, 22, 22, 0.4);
 }
 
 .value {
   font-size: 1.1rem;
-  color: #1a1a1a;
+  color: #161616;
   text-decoration: none;
   font-weight: 400;
 }

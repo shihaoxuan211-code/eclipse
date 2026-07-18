@@ -16,6 +16,11 @@ const Hero = forwardRef(function Hero(_props, ref) {
 
       <div className={styles.overlay} />
 
+      {/* ── Manifesto ── */}
+      <div className={styles.manifesto}>
+        Every frame begins with silence.
+      </div>
+
       <div className={styles.photographerInfo}>
         <h1 className={styles.photographerName}>Photographer Name</h1>
         <p className={styles.photographerTagline}>
