@@ -15,6 +15,7 @@ body {
   background: #FFFFFF;
   color: #161616;
   font-family: Arial, Helvetica, sans-serif;
+  scrollbar-gutter: stable;
 }
 
 /* Hide native cursor on desktop (custom cursor handles visual) */

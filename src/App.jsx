@@ -24,7 +24,6 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [phase, setPhase] = useState('idle')
   const [contentState, setContentState] = useState('visible')
-  const [transitionBrand, setTransitionBrand] = useState(true)
   const pendingPageRef = useRef(null)
 
   const switchPage = useCallback((target) => {
@@ -48,23 +47,28 @@ function App() {
 
     pendingPageRef.current = target
 
-    const isArchive = target === 'Archive' || target.startsWith('/archive/')
-    setTransitionBrand(!isArchive)
-
     setPhase('preparing')
     setContentState('fading')
 
     setTimeout(() => { setPhase('entering') }, PREPARE_DELAY_MS)
 
     setTimeout(() => {
-      window.scrollTo(0, 0)
       setPhase('visible')
+
+      // Switch destination page now, behind the opaque panel
+      const t = pendingPageRef.current
+      if (t) {
+        switchPage(t)
+        // Allow React to commit the new page layout
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            // Destination has rendered behind the overlay
+          })
+        })
+      }
     }, PREPARE_DELAY_MS + PHASE_ENTERING_MS)
 
     setTimeout(() => {
-      const t = pendingPageRef.current
-      if (!t) return
-      switchPage(t)
       setPhase('exiting')
       setContentState('revealing')
       requestAnimationFrame(() => {
@@ -110,7 +114,7 @@ function App() {
         <div className={wrapperClass}>
           <Home onNavigate={navigate} />
         </div>
-        <PageTransition phase={phase} showBrand={transitionBrand} />
+        <PageTransition phase={phase} />
         <CustomCursor />
       </>
     )
@@ -139,7 +143,7 @@ function App() {
       </div>
 
       <CustomCursor />
-      <PageTransition phase={phase} showBrand={transitionBrand} />
+      <PageTransition phase={phase} />
     </>
   )
 }

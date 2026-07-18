@@ -1,15 +1,3 @@
-/* ── Opening overlay ──────────────── */
-.overlay {
-  position: fixed; inset: 0; z-index: 500; background: #FFFFFF;
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem;
-  animation: fadeOut 0.55s ease 0.75s forwards;
-}
-.overlayLabel { font-size: 0.8rem; letter-spacing: 0.28em; text-transform: uppercase; color: rgba(22,22,22,0.4); }
-.overlayTitle { font-size: 1.5rem; font-weight: 400; letter-spacing: 0.22em; text-transform: uppercase; color: #161616; }
-.overlaySub { font-size: 0.7rem; letter-spacing: 0.2em; color: rgba(22,22,22,0.35); margin-top: 0.5rem; opacity: 0; animation: fadeIn 0.35s ease 0.25s forwards; }
-@keyframes fadeIn { to { opacity: 1; } }
-@keyframes fadeOut { 0% { opacity: 1; visibility: visible; } 99% { opacity: 0; visibility: visible; } 100% { opacity: 0; visibility: hidden; } }
-
 /* ── Page ──────────────────────────── */
 .page {
   background: #FFFFFF;
@@ -20,7 +8,7 @@
 
 /* ── Container ────────────────────── */
 .container {
-  max-width: 1440px;
+  max-width: 1500px;
   margin: 0 auto;
   padding: 0 72px;
   position: relative;
@@ -249,8 +237,6 @@
 
 /* ── Reduced motion ────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  .overlay { animation: none; opacity: 0; visibility: hidden; }
-  .overlaySub { animation: none; opacity: 0; }
   .projectRow { transition: none; }
   .projectTitle { transition: none; }
   .projectRowActive .projectTitle { transform: none; }

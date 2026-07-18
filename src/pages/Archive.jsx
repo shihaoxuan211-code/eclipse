@@ -17,12 +17,6 @@ export default function Archive({ onNavigate }) {
 
   return (
     <>
-      <div className={styles.overlay}>
-        <span className={styles.overlayLabel}>Archive</span>
-        <span className={styles.overlayTitle}>2026</span>
-        <span className={styles.overlaySub}>Opening Archive...</span>
-      </div>
-
       <div className={styles.page}>
         <div className={styles.container}>
 

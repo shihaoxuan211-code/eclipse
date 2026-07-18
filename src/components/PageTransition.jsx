@@ -6,16 +6,14 @@ const phaseClass = {
   exiting: styles.exiting,
 }
 
-export default function PageTransition({ phase, showBrand = true }) {
+export default function PageTransition({ phase }) {
   if (phase === 'idle' || !phase) return null
 
   return (
     <div className={`${styles.overlay} ${phaseClass[phase] || ''}`}>
-      {showBrand && (
-        <span className={`${styles.brand} ${phase === 'visible' ? styles.brandVisible : ''}`}>
-          ECLIPSE
-        </span>
-      )}
+      <span className={`${styles.brand} ${phase === 'visible' ? styles.brandVisible : ''}`}>
+        ECLIPSE
+      </span>
     </div>
   )
 }

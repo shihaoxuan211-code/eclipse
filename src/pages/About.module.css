@@ -18,7 +18,7 @@
 
 /* ── Philosophy ───────────────────── */
 .philosophy {
-  padding: 4rem 2.5rem 6rem;
+  padding: 4rem 2.5rem 4rem;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 5rem;
@@ -44,24 +44,104 @@
   margin: 0;
 }
 
-/* ── Location ─────────────────────── */
-.location {
-  padding: 4rem 2.5rem 6rem;
+/* ── Read More / Read Less ────────── */
+.readMore {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  border-bottom: 1px solid #161616;
+  padding: 0 0 2px;
+  font-family: inherit;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #161616;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+  margin-top: 0.5rem;
 }
 
-.locationDivider {
-  width: 100%;
-  height: 1px;
-  background: rgba(22, 22, 22, 0.12);
-  margin-bottom: 3rem;
+.readMore:hover {
+  opacity: 0.5;
 }
 
-.locationItem {
-  font-size: 1rem;
-  line-height: 1.8;
+/* ── Expanded content ─────────────── */
+.expandedContent {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.55s cubic-bezier(0.76, 0, 0.24, 1),
+              opacity 0.45s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.expanded {
+  max-height: 2000px;
+  opacity: 1;
+}
+
+.expandedInner {
+  padding: 0 0 4rem;
+  transform: translateY(12px);
+  transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.expanded .expandedInner {
+  transform: translateY(0);
+}
+
+.expandedGrid {
+  padding: 0 2.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: start;
+}
+
+.expandedLeft {
+  /* asymmetrical layout */
+}
+
+.expandedRight {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  max-width: 520px;
+}
+
+/* ── Info block ───────────────────── */
+.infoBlock {
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.infoItem {
+  font-size: 0.95rem;
+  line-height: 1.65;
   color: rgba(22, 22, 22, 0.56);
   font-weight: 300;
   margin: 0;
+}
+
+.infoContact {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  border-bottom: 1px solid #161616;
+  padding: 0 0 2px;
+  font-family: inherit;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #161616;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+  margin-top: 0.5rem;
+}
+
+.infoContact:hover {
+  opacity: 0.5;
 }
 
 /* ── CTA ──────────────────────────── */
@@ -109,15 +189,21 @@
   .philosophy {
     grid-template-columns: 1fr;
     gap: 3rem;
-    padding: 3rem 1.5rem 4rem;
+    padding: 3rem 1.5rem 3rem;
   }
 
   .philosophyLeft {
     display: none;
   }
 
-  .location {
-    padding: 3rem 1.5rem 4rem;
+  .expandedGrid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 0 1.5rem;
+  }
+
+  .expandedLeft {
+    display: none;
   }
 
   .cta {
